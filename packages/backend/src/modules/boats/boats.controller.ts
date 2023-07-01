@@ -9,22 +9,12 @@ export class BoatsController {
   findAll() {
     return this.boatsService.findAll();
   }
-  //
-  // @Post()
-  // create(
-  //   @Body(roledValidationPipe.create)
-  //   createCwGarageBranchPackageDto: CreateCwGarageBranchPackageDto,
-  // ) {
-  //   return this.cwGarageBranchPackagesService.create(
-  //     createCwGarageBranchPackageDto,
-  //   );
-  // }
-  //
-  // @Get(':id')
-  // findOne(@Param('id') id: number) {
-  //   return this.cwGarageBranchPackagesService.findOne(id);
-  // }
-  //
+
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.boatsService.findOne(id);
+  }
+
   @Patch('rent/:id')
   rent(@Param('id', new ParseIntPipe()) id: number) {
     return this.boatsService.rent(id);
@@ -34,9 +24,4 @@ export class BoatsController {
   return(@Param('id', new ParseIntPipe()) id: number) {
     return this.boatsService.return(id);
   }
-  //
-  // @Delete(':id')
-  // remove(@Param('id') id: number) {
-  //   return this.cwGarageBranchPackagesService.remove(id);
-  // }
 }
