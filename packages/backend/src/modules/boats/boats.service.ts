@@ -23,11 +23,6 @@ export class BoatsService {
 
   async rent(id: number): Promise<Boat | null> {
     const boatToRent = await this.boatsRepository.findOneBy({ id });
-    if (boatToRent.charge < RENT_CHARGE_THRESHOLD) {
-      throw new BadRequestException(
-        `Boat with charging level ${boatToRent.charge}% can not be rented`,
-      );
-    }
     boatToRent.status = Status.Renting;
     await this.boatsRepository.save(boatToRent);
     return boatToRent;

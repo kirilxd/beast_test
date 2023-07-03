@@ -10,20 +10,33 @@ import {
 } from "@mui/material";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import { Link } from "react-router-dom";
+import useError from "../hooks/useError";
 
 const BoatsList = () => {
   const [boats, setBoats] = useState<Boat[]>([]);
+  const { addError } = useError();
+
   useEffect(() => {
     const fetchBoats = async () => {
-      const boats = await getBoats();
-      setBoats(boats);
+      try {
+        const boats = await getBoats();
+        setBoats(boats);
+      } catch (e: any) {
+        addError({ message: e.message });
+      }
     };
     fetchBoats();
   }, []);
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
+      }}
+    >
       <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        sx={{ width: "100%", maxWidth: 420, bgcolor: "background.paper" }}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
@@ -39,7 +52,12 @@ const BoatsList = () => {
                 <DirectionsBoatIcon />
               </ListItemIcon>
               <ListItemText primary={boat.name} />
+              <ListItemText primary={boat.charge} />
+              <ListItemText primary={boat.status} />
               <Link to={`/rent/${boat.id}`}>
+                <Button variant="text">Rent</Button>
+              </Link>
+              <Link to={`/return/${boat.id}`}>
                 <Button variant="text">Rent</Button>
               </Link>
             </ListItem>
