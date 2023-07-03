@@ -58,7 +58,7 @@ const BoatsList = () => {
                 <Button variant="text">Rent</Button>
               </Link>
               <Link to={`/return/${boat.id}`}>
-                <Button variant="text">Rent</Button>
+                <Button variant="text">Return</Button>
               </Link>
             </ListItem>
           );

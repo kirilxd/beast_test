@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import getBoats, { Boat } from "../api/getBoats";
-import getBoatById from "../api/getBoatById";
-import { Box, Button, Card, CardContent } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import useError from "../hooks/useError";
-import rentBoatById from "../api/rentBoatById";
-import returnBoatById from "../api/returnBoatById";
+import React, { useEffect, useState } from 'react';
+import { Boat, Status } from '../api/getBoats';
+import getBoatById from '../api/getBoatById';
+import { Box, Button, Card, CardContent } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import useError from '../hooks/useError';
+import rentBoatById from '../api/rentBoatById';
+import returnBoatById from '../api/returnBoatById';
 
 export enum BoatInfoType {
   Rent = "rent",
@@ -35,18 +35,22 @@ const BoatInfo = ({ id, type }: BoatInfoProps) => {
   useEffect(() => {
     fetchBoat();
   }, [id]);
-  const handleRent = () => {
-    console.log(boat?.charge);
+  const handleRent = async () => {
     if (boat?.charge && boat?.charge < RENT_CHARGE_THRESHOLD) {
       addError({ message: "Boat charge is not sufficient" });
       return;
     }
-    rentBoatById(boat?.id);
+    await rentBoatById(boat?.id);
     fetchBoat();
   };
 
-  const handleReturn = () => {
-    returnBoatById(boat?.id);
+  const handleReturn = async () => {
+    if (boat?.status !== Status.Renting) {
+      addError({ message: "Boat can't be returned" });
+      return;
+    }
+    await returnBoatById(boat?.id);
+    fetchBoat();
   };
 
   const handleMap = {
