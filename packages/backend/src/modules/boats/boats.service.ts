@@ -4,8 +4,6 @@ import { Repository } from 'typeorm';
 import { Boat } from './boats.entity';
 import { Status } from './status';
 
-const RENT_CHARGE_THRESHOLD = 80;
-
 @Injectable()
 export class BoatsService {
   constructor(
