@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Boat, Status } from '../api/getBoats';
+import { Boat, Status } from '../api/types';
 import getBoatById from '../api/getBoatById';
 import { Box, Button, Card, CardContent } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import useError from '../hooks/useError';
+import useNotification from '../hooks/useNotification';
 import rentBoatById from '../api/rentBoatById';
 import returnBoatById from '../api/returnBoatById';
 
@@ -22,13 +22,13 @@ const RENT_CHARGE_THRESHOLD = 80;
 const BoatInfo = ({ id, type }: BoatInfoProps) => {
   const [boat, setBoat] = useState<Boat | undefined>();
 
-  const { addError } = useError();
+  const { showNotification } = useNotification();
   const fetchBoat = async () => {
     try {
       const boat = await getBoatById(id);
       setBoat(boat);
     } catch (e: any) {
-      addError({ message: e.message });
+      showNotification({ message: e.message, severity: "error" });
     }
   };
 
@@ -37,20 +37,22 @@ const BoatInfo = ({ id, type }: BoatInfoProps) => {
   }, [id]);
   const handleRent = async () => {
     if (boat?.charge && boat?.charge < RENT_CHARGE_THRESHOLD) {
-      addError({ message: "Boat charge is not sufficient" });
+      showNotification({ message: "Boat charge is not sufficient", severity: "error" });
       return;
     }
     await rentBoatById(boat?.id);
     fetchBoat();
+    showNotification({ message: "Rented successfully", severity: "success" });
   };
 
   const handleReturn = async () => {
     if (boat?.status !== Status.Renting) {
-      addError({ message: "Boat can't be returned" });
+      showNotification({ message: "Boat can't be returned", severity: "error" });
       return;
     }
     await returnBoatById(boat?.id);
     fetchBoat();
+    showNotification({ message: "Returned successfully", severity: "success" });
   };
 
   const handleMap = {

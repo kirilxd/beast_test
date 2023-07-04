@@ -4,16 +4,16 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import router from "./routes/router";
-import ErrorProvider from "./providers/ErrorProvider";
+import NotificationProvider from "./providers/NotificationProvider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <ErrorProvider>
+    <NotificationProvider>
       <RouterProvider router={router} />
-    </ErrorProvider>
+    </NotificationProvider>
   </React.StrictMode>
 );
 

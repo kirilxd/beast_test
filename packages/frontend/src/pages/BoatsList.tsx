@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import getBoats, { Boat } from "../api/getBoats";
+import getBoats from "../api/getBoats";
 import {
   Button,
   List,
@@ -10,11 +10,12 @@ import {
 } from "@mui/material";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import { Link } from "react-router-dom";
-import useError from "../hooks/useError";
+import useNotification from "../hooks/useNotification";
+import { Boat } from "../api/types";
 
 const BoatsList = () => {
   const [boats, setBoats] = useState<Boat[]>([]);
-  const { addError } = useError();
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     const fetchBoats = async () => {
@@ -22,7 +23,7 @@ const BoatsList = () => {
         const boats = await getBoats();
         setBoats(boats);
       } catch (e: any) {
-        addError({ message: e.message });
+        showNotification({ message: e.message, severity: "error" });
       }
     };
     fetchBoats();

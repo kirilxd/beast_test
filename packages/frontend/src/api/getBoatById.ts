@@ -1,5 +1,5 @@
 import client from './client';
-import { Boat } from './getBoats';
+import { Boat } from './types';
 
 const getBoatById = async (id?: string): Promise<Boat> => {
   const response = await client.get(`/boats/${id}`);
