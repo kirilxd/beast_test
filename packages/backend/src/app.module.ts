@@ -16,7 +16,6 @@ import { BoatsModule } from './modules/boats/boats.module';
       database: 'beast_db',
       entities: [Boat],
       synchronize: true,
-      migrations: ['src/db/migrations/*.ts'],
     }),
     BoatsModule,
   ],

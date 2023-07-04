@@ -34,6 +34,7 @@ const BoatsList = () => {
         display: "flex",
         justifyContent: "center",
         alignContent: "center",
+        marginTop: "20px",
       }}
     >
       <List
